@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class administrarTablas {
 
@@ -88,9 +89,10 @@ public class administrarTablas {
                 sc = new Scanner(archivo);
                 sc.useDelimiter("\n");
                 while (sc.hasNext()) {
-                    String pal;
-                    if ((pal = sc.next()).equals("#Encabezado")) {
-                        s2 = new Scanner(sc.next());
+                    String pal=sc.next();
+                    if (pal.equals("#Encabezado")) {
+                        System.out.println("entro");
+                         s2 = new Scanner(sc.next());
                         s2.useDelimiter(":");
                         s2.next();
                         String nombre = s2.next();
@@ -139,8 +141,7 @@ public class administrarTablas {
                         lista.get(lista.size() - 1).setAtributos(atributos);
                         lista.get(lista.size() - 1).setDetalle(detalle);
                         lista.get(lista.size() - 1).setColaboradores(colaboradores);
-                    } else {
-                        System.out.println(pal);
+                    }else{
                         s2 = new Scanner(pal);
                         s2.useDelimiter(":");
                         s2.next();
@@ -190,7 +191,14 @@ public class administrarTablas {
                         lista.get(lista.size() - 1).setAtributos(atributos);
                         lista.get(lista.size() - 1).setDetalle(detalle);
                         lista.get(lista.size() - 1).setColaboradores(colaboradores);
+                    
                     }
+                    JOptionPane.showMessageDialog(null, "alto");
+//                    String pal= sc.next();                    
+//                    if ((pal).equals("#Encabezado\n")) {                        
+//                       
+//                    } else {
+//                    }
 
                 }
 
