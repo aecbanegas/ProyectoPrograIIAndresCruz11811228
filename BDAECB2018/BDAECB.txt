@@ -1,7 +1,7 @@
 #Encabezado
 nombre:Clientes
 creador:admin
-fecha_creacion:09/12/2018
+fecha_creacion:09/01/3918
 colaboradores:
 atributos:id,nom,ed
 #Detalles

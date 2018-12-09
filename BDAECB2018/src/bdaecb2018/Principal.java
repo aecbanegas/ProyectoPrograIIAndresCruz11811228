@@ -133,6 +133,11 @@ public class Principal extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         jt_usuarios.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_usuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_usuariosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jt_usuarios);
 
         jLabel4.setText("Bases de Datos:");
@@ -164,6 +169,11 @@ public class Principal extends javax.swing.JFrame {
 
         bt_eliminardb.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/borrar.jpg"))); // NOI18N
         bt_eliminardb.setBorderPainted(false);
+        bt_eliminardb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_eliminardbMouseClicked(evt);
+            }
+        });
 
         jMenu1.setText("Administracion");
 
@@ -905,6 +915,35 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_bt_crearbdActionPerformed
 
+    private void jt_usuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_usuariosMouseClicked
+        // TODO add your handling code here:
+        if (evt.isMetaDown()) {
+            int row = jt_usuarios.getClosestRowForLocation(evt.getX(), evt.getY());
+            jt_usuarios.setSelectionRow(row);                    
+        }
+    }//GEN-LAST:event_jt_usuariosMouseClicked
+
+    private void bt_eliminardbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_eliminardbMouseClicked
+        // TODO add your handling code here:
+        try {
+            DefaultTreeModel modelo=(DefaultTreeModel)jt_usuarios.getModel();
+            DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)modelo.getRoot();
+            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();            
+            for (int i = 0; i < tablas.size(); i++) {
+                if (tablas.get(i).getNombre().equals(((Tablas)((DefaultMutableTreeNode)v1).getUserObject()).getNombre())) {
+                    tablas.remove(i);
+                }
+            }
+            at.setLista(tablas);
+            at.escribirArchivo();
+            raiz.remove((DefaultMutableTreeNode) v1);
+            modelo.reload();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(jd_menu, "No hay una Base de Datos Seleccionada");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_bt_eliminardbMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1011,4 +1050,5 @@ public class Principal extends javax.swing.JFrame {
     int indexglobal;
     ArrayList<Tablas> tablas = new ArrayList();
     administrarTablas at = new administrarTablas("./BDAECB.txt");
+    Object v1;
 }
