@@ -13,6 +13,7 @@ import java.util.Scanner;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -65,6 +66,7 @@ public class Principal extends javax.swing.JFrame {
         tabla = new javax.swing.JTable();
         bt_agregarbd = new javax.swing.JButton();
         bt_eliminardb = new javax.swing.JButton();
+        cargarbd = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmi_crear = new javax.swing.JMenuItem();
@@ -175,6 +177,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        cargarbd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/iconos.png"))); // NOI18N
+        cargarbd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cargarbdMouseClicked(evt);
+            }
+        });
+
         jMenu1.setText("Administracion");
 
         jmi_crear.setText("Crear Usuarios");
@@ -228,25 +237,30 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jd_menuLayout.createSequentialGroup()
                         .addComponent(bt_agregarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(bt_eliminardb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(bt_eliminardb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cargarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jd_menuLayout.setVerticalGroup(
             jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_menuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1))
             .addGroup(jd_menuLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_agregarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_eliminardb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(jd_menuLayout.createSequentialGroup()
+                        .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(bt_agregarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cargarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bt_eliminardb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jd_menuLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))))
         );
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
@@ -919,18 +933,18 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.isMetaDown()) {
             int row = jt_usuarios.getClosestRowForLocation(evt.getX(), evt.getY());
-            jt_usuarios.setSelectionRow(row);                    
+            jt_usuarios.setSelectionRow(row);
         }
     }//GEN-LAST:event_jt_usuariosMouseClicked
 
     private void bt_eliminardbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_eliminardbMouseClicked
         // TODO add your handling code here:
         try {
-            DefaultTreeModel modelo=(DefaultTreeModel)jt_usuarios.getModel();
-            DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)modelo.getRoot();
-            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();            
+            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
             for (int i = 0; i < tablas.size(); i++) {
-                if (tablas.get(i).getNombre().equals(((Tablas)((DefaultMutableTreeNode)v1).getUserObject()).getNombre())) {
+                if (tablas.get(i).getNombre().equals(((Tablas) ((DefaultMutableTreeNode) v1).getUserObject()).getNombre())) {
                     tablas.remove(i);
                 }
             }
@@ -943,6 +957,33 @@ public class Principal extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_bt_eliminardbMouseClicked
+
+    private void cargarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarbdMouseClicked
+        // TODO add your handling code here:
+        try {
+            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
+            cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
+            ArrayList<String> atrib = cargada.getAtributos();
+            String[] titulo = new String[atrib.size()];
+            for (int i = 0; i < titulo.length; i++) {
+                titulo[i] = atrib.get(i);
+            }
+            tabla.setModel(new javax.swing.table.DefaultTableModel(
+                    new Object[][]{},
+                    titulo
+            ));
+            DefaultTableModel tm=(DefaultTableModel)tabla.getModel();
+            ArrayList<String>detalle=cargada.getDetalle();
+            for (int i = 0; i < detalle.size(); i++) {
+                Object[]row=detalle.get(i).split(",");
+                tm.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(jd_menu, "No hay una Base de Datos Seleccionada");
+        }
+    }//GEN-LAST:event_cargarbdMouseClicked
 
     /**
      * @param args the command line arguments
@@ -983,6 +1024,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_agregarbd;
     private javax.swing.JButton bt_crearbd;
     private javax.swing.JButton bt_eliminardb;
+    private javax.swing.JButton cargarbd;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -1051,4 +1093,5 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Tablas> tablas = new ArrayList();
     administrarTablas at = new administrarTablas("./BDAECB.txt");
     Object v1;
+    Tablas cargada;
 }

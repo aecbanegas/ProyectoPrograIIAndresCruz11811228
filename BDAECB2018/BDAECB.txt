@@ -1,7 +1,16 @@
 #Encabezado
 nombre:Clientes
 creador:admin
-fecha_creacion:09/01/3918
+fecha_creacion:09/02/5818
 colaboradores:
 atributos:id,nom,ed
+#Detalles
+0801,Andres,18
+0701,Maribel,48
+#Encabezado
+nombre:andres
+creador:admin
+fecha_creacion:09/12/2018
+colaboradores:
+atributos:id,nombre,edad,apellido,correo
 #Detalles

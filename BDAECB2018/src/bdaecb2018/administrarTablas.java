@@ -140,6 +140,7 @@ public class administrarTablas {
                         lista.get(lista.size() - 1).setDetalle(detalle);
                         lista.get(lista.size() - 1).setColaboradores(colaboradores);
                     } else {
+                        System.out.println(pal);
                         s2 = new Scanner(pal);
                         s2.useDelimiter(":");
                         s2.next();
@@ -159,7 +160,6 @@ public class administrarTablas {
                         s2 = new Scanner(sc.next());
                         s2.useDelimiter(":");
                         s2.next();
-                        String p;
                         ArrayList<String> colaboradores = new ArrayList();
                         while (s2.hasNext()) {
                             s3 = new Scanner(s2.next());
