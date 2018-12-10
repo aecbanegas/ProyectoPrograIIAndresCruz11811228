@@ -7,7 +7,6 @@ public class Tablas {
     String nombre;
     String creador;
     Date fecha_creacion;
-    ArrayList<String> Colaboradores=new ArrayList();
     ArrayList<String> Atributos=new ArrayList();
     ArrayList<String> Detalle=new ArrayList();
 
@@ -17,14 +16,6 @@ public class Tablas {
         this.fecha_creacion = fecha_creacion;
     }    
 
-    public ArrayList<String> getColaboradores() {
-        return Colaboradores;
-    }
-
-    public void setColaboradores(ArrayList<String> Colaboradores) {
-        this.Colaboradores = Colaboradores;
-    }    
-    
     public String getNombre() {
         return nombre;
     }

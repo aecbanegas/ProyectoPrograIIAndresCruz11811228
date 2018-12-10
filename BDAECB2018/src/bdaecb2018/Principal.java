@@ -7,6 +7,7 @@ package bdaecb2018;
 
 import java.awt.Image;
 import java.awt.Canvas;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -664,19 +665,19 @@ public class Principal extends javax.swing.JFrame {
             DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
             modelo.setRoot(raiz);
             DefaultMutableTreeNode princ = (DefaultMutableTreeNode) modelo.getRoot();
-            DefaultMutableTreeNode agregar;
-            for (int i = 0; i < tablas.size(); i++) {
-                if (tablas.get(i).getCreador().equals(usuarioact.getUsuario())) {
-                    agregar = new DefaultMutableTreeNode(tablas.get(i));
-                    princ.add(agregar);
-                }
-                for (int j = 0; j < tablas.get(i).getColaboradores().size(); j++) {
-                    if (tablas.get(i).getColaboradores().get(j).equals(usuarioact.getUsuario())) {
-                        agregar = new DefaultMutableTreeNode(tablas.get(i));
-                        princ.add(agregar);
-                    }
-                }
-            }
+//            DefaultMutableTreeNode agregar;
+//            for (int i = 0; i < tablas.size(); i++) {
+//                if (tablas.get(i).getCreador().equals(usuarioact.getUsuario())) {
+//                    agregar = new DefaultMutableTreeNode(tablas.get(i));
+//                    princ.add(agregar);
+//                }
+//                for (int j = 0; j < tablas.get(i).getColaboradores().size(); j++) {
+//                    if (tablas.get(i).getColaboradores().get(j).equals(usuarioact.getUsuario())) {
+//                        agregar = new DefaultMutableTreeNode(tablas.get(i));
+//                        princ.add(agregar);
+//                    }
+//                }
+//            }
             modelo.reload();
             tf_usu.setText("");
             pf_cont.setText("");
@@ -764,20 +765,20 @@ public class Principal extends javax.swing.JFrame {
                 DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
                 modelo.setRoot(raiz);
                 DefaultMutableTreeNode princ = (DefaultMutableTreeNode) modelo.getRoot();
-                DefaultMutableTreeNode agregar;
-                for (int i = 0; i < tablas.size(); i++) {
-                    if (tablas.get(i).getCreador().equals(usuarioact.getUsuario())) {
-                        agregar = new DefaultMutableTreeNode(tablas.get(i));
-                        princ.add(agregar);
-                    }
-                    for (int j = 0; j < tablas.get(i).getColaboradores().size(); j++) {
-                        if (tablas.get(i).getColaboradores().get(j).equals(usuarioact.getUsuario())) {
-                            agregar = new DefaultMutableTreeNode(tablas.get(i));
-                            princ.add(agregar);
-                        }
-                    }
-                }
-                modelo.reload();
+//                DefaultMutableTreeNode agregar;
+//                for (int i = 0; i < tablas.size(); i++) {
+//                    if (tablas.get(i).getCreador().equals(usuarioact.getUsuario())) {
+//                        agregar = new DefaultMutableTreeNode(tablas.get(i));
+//                        princ.add(agregar);
+//                    }
+//                    for (int j = 0; j < tablas.get(i).getColaboradores().size(); j++) {
+//                        if (tablas.get(i).getColaboradores().get(j).equals(usuarioact.getUsuario())) {
+//                            agregar = new DefaultMutableTreeNode(tablas.get(i));
+//                            princ.add(agregar);
+//                        }
+//                    }
+//                }
+//                modelo.reload();
                 tf_usu.setText("");
                 pf_cont.setText("");
                 jd_menu.setModal(true);
@@ -870,6 +871,30 @@ public class Principal extends javax.swing.JFrame {
         if (evt.getKeyCode() == evt.VK_SPACE || evt.getKeyCode() == evt.VK_ENTER) {
             ColPal cp = new ColPal(sql);
         }
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            String[] mostrar = sql.getText().split("  ");
+            if (mostrar.length >= 1) {
+                switch (mostrar[1]) {
+                    case "CREATE":
+                        break;
+                    case "DROP":
+                        break;
+                    case "GRANT":
+                        break;
+                    case "INSERT":
+                        break;
+                    case "SELECT":
+                        break;
+                    case "UPDATE":
+                        break;
+                    case "DELETE":
+                        break;
+                    case "TRUNCATE":
+                        break;
+
+                }
+            }
+        }
     }//GEN-LAST:event_sqlKeyPressed
 
     private void jd_menuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jd_menuKeyPressed
@@ -881,12 +906,43 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jd_menuWindowClosed
 
+    private void cargarBD() {
+        DefaultTreeModel modelo=(DefaultTreeModel)jt_usuarios.getModel();
+        DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)modelo.getRoot();
+        String path = "./Bases de Datos";
+        File archivo = new File(path);
+        if (archivo.exists()) {
+            if (archivo.isDirectory()) {
+                ArrayList<String> in = new ArrayList();
+                File[] all_content = archivo.listFiles();
+                for (int i = 0; i < all_content.length; i++) {
+                    in.add(all_content[i].toString());
+                }
+                for (int i = 0; i < in.size(); i++) {
+                    File bas = new File(path + "/" + in.get(i));
+                    ArrayList<String> in2 = new ArrayList();
+                    File[] adentro = bas.listFiles();
+                    for (int j = 0;j < adentro.length; j++) {
+                        in2.add(adentro[j].toString());
+                    }
+                    for (int j = 0; j < in2.size(); j++) {
+                        File ark=new File(path+"/"+in.get(i)+"/"+in2.get(i));
+                        
+                    }
+                }
+
+            }
+        } else {
+            archivo.mkdir();
+        }
+    }
+
     private void bt_agregarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_agregarbdMouseClicked
         // TODO add your handling code here:
-        jd_crearbd.setModal(true);
-        jd_crearbd.setLocationRelativeTo(jd_menu);
-        jd_crearbd.pack();
-        jd_crearbd.setVisible(true);
+//        jd_crearbd.setModal(true);
+//        jd_crearbd.setLocationRelativeTo(jd_menu);
+//        jd_crearbd.pack();
+//        jd_crearbd.setVisible(true);
     }//GEN-LAST:event_bt_agregarbdMouseClicked
 
     private void bt_crearbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearbdMouseClicked
@@ -939,50 +995,50 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_eliminardbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_eliminardbMouseClicked
         // TODO add your handling code here:
-        try {
-            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
-            for (int i = 0; i < tablas.size(); i++) {
-                if (tablas.get(i).getNombre().equals(((Tablas) ((DefaultMutableTreeNode) v1).getUserObject()).getNombre())) {
-                    tablas.remove(i);
-                }
-            }
-            at.setLista(tablas);
-            at.escribirArchivo();
-            raiz.remove((DefaultMutableTreeNode) v1);
-            modelo.reload();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(jd_menu, "No hay una Base de Datos Seleccionada");
-            e.printStackTrace();
-        }
+//        try {
+//            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+//            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+//            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
+//            for (int i = 0; i < tablas.size(); i++) {
+//                if (tablas.get(i).getNombre().equals(((Tablas) ((DefaultMutableTreeNode) v1).getUserObject()).getNombre())) {
+//                    tablas.remove(i);
+//                }
+//            }
+//            at.setLista(tablas);
+//            at.escribirArchivo();
+//            raiz.remove((DefaultMutableTreeNode) v1);
+//            modelo.reload();
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(jd_menu, "No hay una Base de Datos Seleccionada");
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_bt_eliminardbMouseClicked
 
     private void cargarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarbdMouseClicked
         // TODO add your handling code here:
-        try {
-            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
-            cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
-            ArrayList<String> atrib = cargada.getAtributos();
-            String[] titulo = new String[atrib.size()];
-            for (int i = 0; i < titulo.length; i++) {
-                titulo[i] = atrib.get(i);
-            }
-            tabla.setModel(new javax.swing.table.DefaultTableModel(
-                    new Object[][]{},
-                    titulo
-            ));
-            DefaultTableModel tm=(DefaultTableModel)tabla.getModel();
-            ArrayList<String>detalle=cargada.getDetalle();
-            for (int i = 0; i < detalle.size(); i++) {
-                Object[]row=detalle.get(i).split(",");
-                tm.addRow(row);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(jd_menu, "No hay una Base de Datos Seleccionada");
-        }
+//        try {
+//            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+//            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+//            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
+//            cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
+//            ArrayList<String> atrib = cargada.getAtributos();
+//            String[] titulo = new String[atrib.size()];
+//            for (int i = 0; i < titulo.length; i++) {
+//                titulo[i] = atrib.get(i);
+//            }
+//            tabla.setModel(new javax.swing.table.DefaultTableModel(
+//                    new Object[][]{},
+//                    titulo
+//            ));
+//            DefaultTableModel tm=(DefaultTableModel)tabla.getModel();
+//            ArrayList<String>detalle=cargada.getDetalle();
+//            for (int i = 0; i < detalle.size(); i++) {
+//                Object[]row=detalle.get(i).split(",");
+//                tm.addRow(row);
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(jd_menu, "No hay una Base de Datos Seleccionada");
+//        }
     }//GEN-LAST:event_cargarbdMouseClicked
 
     /**
@@ -1094,4 +1150,5 @@ public class Principal extends javax.swing.JFrame {
     administrarTablas at = new administrarTablas("./BDAECB.txt");
     Object v1;
     Tablas cargada;
+    ArrayList<bdatos> basesdedatos = new ArrayList();
 }

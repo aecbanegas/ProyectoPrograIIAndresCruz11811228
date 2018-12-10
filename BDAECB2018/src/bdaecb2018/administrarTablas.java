@@ -46,18 +46,7 @@ public class administrarTablas {
                 bw.write("#Encabezado\n");
                 bw.write("nombre:" + tablas.getNombre() + "\n");
                 bw.write("creador:" + tablas.getCreador() + "\n");
-                bw.write("fecha_creacion:" + f.format(tablas.getFecha_creacion()) + "\n");
-                bw.write("colaboradores:");
-                for (int i = 0; i < tablas.getColaboradores().size(); i++) {
-                    if (i == tablas.getColaboradores().size() - 1) {
-                        bw.write(tablas.getColaboradores().get(i) + "\n");
-                    } else {
-                        bw.write(tablas.getColaboradores().get(i) + ",");
-                    }
-                }
-                if (tablas.getColaboradores().isEmpty()) {
-                    bw.write("\n");
-                }
+                bw.write("fecha_creacion:" + f.format(tablas.getFecha_creacion()) + "\n");                
                 bw.write("atributos:");
                 for (int i = 0; i < tablas.getAtributos().size(); i++) {
                     if (i == tablas.getAtributos().size() - 1) {
@@ -90,8 +79,7 @@ public class administrarTablas {
                 sc.useDelimiter("\n");
                 while (sc.hasNext()) {
                     String pal=sc.next();
-                    if (pal.equals("#Encabezado")) {
-                        System.out.println("entro");
+                    if (pal.equals("#Encabezado")) {                        
                          s2 = new Scanner(sc.next());
                         s2.useDelimiter(":");
                         s2.next();
@@ -107,18 +95,7 @@ public class administrarTablas {
                         s3.useDelimiter("/");
                         fechacreacion.setDate(s3.nextInt());
                         fechacreacion.setMonth(s3.nextInt());
-                        fechacreacion.setYear(s3.nextInt());
-                        s2 = new Scanner(sc.next());
-                        s2.useDelimiter(":");
-                        s2.next();
-                        ArrayList<String> colaboradores = new ArrayList();
-                        while (s2.hasNext()) {
-                            s3 = new Scanner(s2.next());
-                            while (s3.hasNext()) {
-                                colaboradores.add(s3.next());
-
-                            }
-                        }
+                        fechacreacion.setYear(s3.nextInt());                        
                         s2 = new Scanner(sc.next());
                         s2.useDelimiter(":");
                         s2.next();
@@ -139,8 +116,7 @@ public class administrarTablas {
                         }
                         lista.add(new Tablas(nombre, creador, fechacreacion));
                         lista.get(lista.size() - 1).setAtributos(atributos);
-                        lista.get(lista.size() - 1).setDetalle(detalle);
-                        lista.get(lista.size() - 1).setColaboradores(colaboradores);
+                        lista.get(lista.size() - 1).setDetalle(detalle);                        
                     }else{
                         s2 = new Scanner(pal);
                         s2.useDelimiter(":");
@@ -157,18 +133,7 @@ public class administrarTablas {
                         s3.useDelimiter("/");
                         fechacreacion.setDate(s3.nextInt());
                         fechacreacion.setMonth(s3.nextInt());
-                        fechacreacion.setYear(s3.nextInt());
-                        s2 = new Scanner(sc.next());
-                        s2.useDelimiter(":");
-                        s2.next();
-                        ArrayList<String> colaboradores = new ArrayList();
-                        while (s2.hasNext()) {
-                            s3 = new Scanner(s2.next());
-                            while (s3.hasNext()) {
-                                colaboradores.add(s3.next());
-
-                            }
-                        }
+                        fechacreacion.setYear(s3.nextInt());                       
                         s2 = new Scanner(sc.next());
                         s2.useDelimiter(":");
                         s2.next();
@@ -189,19 +154,9 @@ public class administrarTablas {
                         }
                         lista.add(new Tablas(nombre, creador, fechacreacion));
                         lista.get(lista.size() - 1).setAtributos(atributos);
-                        lista.get(lista.size() - 1).setDetalle(detalle);
-                        lista.get(lista.size() - 1).setColaboradores(colaboradores);
-                    
-                    }
-                    JOptionPane.showMessageDialog(null, "alto");
-//                    String pal= sc.next();                    
-//                    if ((pal).equals("#Encabezado\n")) {                        
-//                       
-//                    } else {
-//                    }
-
+                        lista.get(lista.size() - 1).setDetalle(detalle);                                           
+                    }                    
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
                 System.err.println("no lo lee");
