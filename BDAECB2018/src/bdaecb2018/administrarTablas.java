@@ -45,6 +45,7 @@ public class administrarTablas {
             for (Tablas tablas : lista) {
                 bw.write("#Encabezado\n");
                 bw.write("nombre:" + tablas.getNombre() + "\n");
+                bw.write("base_de_datos:"+tablas.getBd()+"\n");
                 bw.write("creador:" + tablas.getCreador() + "\n");
                 bw.write("fecha_creacion:" + f.format(tablas.getFecha_creacion()) + "\n");                
                 bw.write("atributos:");
@@ -84,6 +85,10 @@ public class administrarTablas {
                         s2.useDelimiter(":");
                         s2.next();
                         String nombre = s2.next();
+                        s2=new Scanner(sc.next());
+                        s2.useDelimiter(":");
+                        s2.next();
+                        String bd=s2.next();
                         s2 = new Scanner(sc.next());
                         s2.useDelimiter(":");
                         s2.next();
@@ -114,7 +119,7 @@ public class administrarTablas {
                         while (sc.hasNext() && !(limite = sc.next()).equals("#Encabezado")) {
                             detalle.add(limite);
                         }
-                        lista.add(new Tablas(nombre, creador, fechacreacion));
+                        lista.add(new Tablas(nombre, creador, fechacreacion,bd));
                         lista.get(lista.size() - 1).setAtributos(atributos);
                         lista.get(lista.size() - 1).setDetalle(detalle);                        
                     }else{
@@ -122,6 +127,10 @@ public class administrarTablas {
                         s2.useDelimiter(":");
                         s2.next();
                         String nombre = s2.next();
+                        s2=new Scanner(sc.next());
+                        s2.useDelimiter(":");
+                        s2.next();
+                        String bd=s2.next();
                         s2 = new Scanner(sc.next());
                         s2.useDelimiter(":");
                         s2.next();
@@ -152,7 +161,7 @@ public class administrarTablas {
                         while (sc.hasNext() && !(limite = sc.next()).equals("#Encabezado")) {
                             detalle.add(limite);
                         }
-                        lista.add(new Tablas(nombre, creador, fechacreacion));
+                        lista.add(new Tablas(nombre, creador, fechacreacion,bd));
                         lista.get(lista.size() - 1).setAtributos(atributos);
                         lista.get(lista.size() - 1).setDetalle(detalle);                                           
                     }                    

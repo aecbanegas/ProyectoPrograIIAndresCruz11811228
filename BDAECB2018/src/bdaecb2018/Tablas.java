@@ -5,17 +5,27 @@ import java.util.Date;
 
 public class Tablas {
     String nombre;
+    String bd;
     String creador;
     Date fecha_creacion;
     ArrayList<String> Atributos=new ArrayList();
     ArrayList<String> Detalle=new ArrayList();
 
-    public Tablas(String nombre, String creador, Date fecha_creacion) {
+    public Tablas(String nombre, String creador, Date fecha_creacion,String bd) {
         this.nombre = nombre;
         this.creador = creador;
         this.fecha_creacion = fecha_creacion;
+        this.bd=bd;
     }    
 
+    public String getBd() {
+        return bd;
+    }
+
+    public void setBd(String bd) {
+        this.bd = bd;
+    }
+           
     public String getNombre() {
         return nombre;
     }

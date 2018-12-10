@@ -40,6 +40,10 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         au.cargarArchivo();
         at.cargarArchivo();
+        abd.cargarArchivo();
+        for (int i = 0; i < abd.getBasesdedatos().size(); i++) {
+            basesdedatos.add(abd.getBasesdedatos().get(i));
+        }
         for (int i = 0; i < at.getLista().size(); i++) {
             tablas.add(at.getLista().get(i));
         }
@@ -68,6 +72,8 @@ public class Principal extends javax.swing.JFrame {
         bt_agregarbd = new javax.swing.JButton();
         bt_eliminardb = new javax.swing.JButton();
         cargarbd = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmi_crear = new javax.swing.JMenuItem();
@@ -109,11 +115,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         tf_nombrebd = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
-        tf_atributos = new javax.swing.JTextField();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
         bt_crearbd = new javax.swing.JButton();
+        jLabel21 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -185,6 +188,8 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel18.setText("Las tablas se guardaran en:");
+
         jMenu1.setText("Administracion");
 
         jmi_crear.setText("Crear Usuarios");
@@ -240,7 +245,11 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(bt_eliminardb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(cargarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cargarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(96, 96, 96)
+                        .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jd_menuLayout.setVerticalGroup(
@@ -249,10 +258,15 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jd_menuLayout.createSequentialGroup()
-                        .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(bt_agregarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cargarbd, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bt_eliminardb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bt_eliminardb, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jd_menuLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel18)
+                                .addGap(4, 4, 4)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -495,15 +509,6 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel17.setText("Nombre:");
 
-        jLabel18.setText("Atributos:");
-
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel19.setText("*Los atributos deben estar separados por");
-        jLabel19.setToolTipText("");
-
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel20.setText(" punto y coma para que su creacion se correcta");
-
         bt_crearbd.setText("Crear Base de Datos");
         bt_crearbd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -516,26 +521,25 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("*El nombre debe ser unico.");
+
         javax.swing.GroupLayout jd_crearbdLayout = new javax.swing.GroupLayout(jd_crearbd.getContentPane());
         jd_crearbd.getContentPane().setLayout(jd_crearbdLayout);
         jd_crearbdLayout.setHorizontalGroup(
             jd_crearbdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
             .addGroup(jd_crearbdLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jd_crearbdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel18))
-                .addGap(18, 18, 18)
+                .addComponent(jLabel17)
+                .addGap(25, 25, 25)
                 .addGroup(jd_crearbdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jd_crearbdLayout.createSequentialGroup()
                         .addComponent(bt_crearbd)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(tf_atributos)
+                        .addGap(0, 51, Short.MAX_VALUE))
                     .addComponent(tf_nombrebd))
                 .addContainerGap())
+            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jd_crearbdLayout.setVerticalGroup(
             jd_crearbdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,17 +549,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jd_crearbdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(tf_nombrebd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jd_crearbdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(tf_atributos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
                 .addComponent(bt_crearbd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel20)
-                .addGap(7, 7, 7))
+                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -665,19 +662,32 @@ public class Principal extends javax.swing.JFrame {
             DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
             modelo.setRoot(raiz);
             DefaultMutableTreeNode princ = (DefaultMutableTreeNode) modelo.getRoot();
-//            DefaultMutableTreeNode agregar;
-//            for (int i = 0; i < tablas.size(); i++) {
-//                if (tablas.get(i).getCreador().equals(usuarioact.getUsuario())) {
-//                    agregar = new DefaultMutableTreeNode(tablas.get(i));
-//                    princ.add(agregar);
-//                }
-//                for (int j = 0; j < tablas.get(i).getColaboradores().size(); j++) {
-//                    if (tablas.get(i).getColaboradores().get(j).equals(usuarioact.getUsuario())) {
-//                        agregar = new DefaultMutableTreeNode(tablas.get(i));
-//                        princ.add(agregar);
-//                    }
-//                }
-//            }
+            DefaultMutableTreeNode agregar;
+            for (int i = 0; i < basesdedatos.size(); i++) {
+                DefaultMutableTreeNode tabs;
+                if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario())) {
+                    agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
+                    for (int j = 0; j < tablas.size(); j++) {
+                        if (tablas.get(j).getBd().equals(basesdedatos.get(i))) {
+                            tabs = new DefaultMutableTreeNode(tablas.get(j));
+                            agregar.add(tabs);
+                        }
+                    }
+                    princ.add(agregar);
+                }
+                for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
+                    if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
+                        agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
+                        for (int k = 0; k < tablas.size(); k++) {
+                            if (tablas.get(k).getBd().equals(basesdedatos.get(i))) {
+                                tabs = new DefaultMutableTreeNode(tablas.get(k));
+                                agregar.add(tabs);
+                            }
+                        }
+                        princ.add(agregar);
+                    }
+                }
+            }
             modelo.reload();
             tf_usu.setText("");
             pf_cont.setText("");
@@ -696,7 +706,6 @@ public class Principal extends javax.swing.JFrame {
         jd_crearusuario.pack();
         jd_crearusuario.setLocationRelativeTo(jd_menu);
         jd_crearusuario.setVisible(true);
-
     }//GEN-LAST:event_jmi_crearActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
@@ -765,20 +774,33 @@ public class Principal extends javax.swing.JFrame {
                 DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
                 modelo.setRoot(raiz);
                 DefaultMutableTreeNode princ = (DefaultMutableTreeNode) modelo.getRoot();
-//                DefaultMutableTreeNode agregar;
-//                for (int i = 0; i < tablas.size(); i++) {
-//                    if (tablas.get(i).getCreador().equals(usuarioact.getUsuario())) {
-//                        agregar = new DefaultMutableTreeNode(tablas.get(i));
-//                        princ.add(agregar);
-//                    }
-//                    for (int j = 0; j < tablas.get(i).getColaboradores().size(); j++) {
-//                        if (tablas.get(i).getColaboradores().get(j).equals(usuarioact.getUsuario())) {
-//                            agregar = new DefaultMutableTreeNode(tablas.get(i));
-//                            princ.add(agregar);
-//                        }
-//                    }
-//                }
-//                modelo.reload();
+                DefaultMutableTreeNode agregar;
+                for (int i = 0; i < basesdedatos.size(); i++) {
+                    DefaultMutableTreeNode tabs;
+                    if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario())) {
+                        agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
+                        for (int j = 0; j < tablas.size(); j++) {
+                            if (tablas.get(j).getBd().equals(basesdedatos.get(i))) {
+                                tabs = new DefaultMutableTreeNode(tablas.get(j));
+                                agregar.add(tabs);
+                            }
+                        }
+                        princ.add(agregar);
+                    }
+                    for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
+                        if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
+                            agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
+                            for (int k = 0; k < tablas.size(); k++) {
+                                if (tablas.get(k).getBd().equals(basesdedatos.get(i))) {
+                                    tabs = new DefaultMutableTreeNode(tablas.get(k));
+                                    agregar.add(tabs);
+                                }
+                            }
+                            princ.add(agregar);
+                        }
+                    }
+                }
+                modelo.reload();
                 tf_usu.setText("");
                 pf_cont.setText("");
                 jd_menu.setModal(true);
@@ -906,74 +928,56 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jd_menuWindowClosed
 
-    private void cargarBD() {
-        DefaultTreeModel modelo=(DefaultTreeModel)jt_usuarios.getModel();
-        DefaultMutableTreeNode raiz=(DefaultMutableTreeNode)modelo.getRoot();
-        String path = "./Bases de Datos";
-        File archivo = new File(path);
-        if (archivo.exists()) {
-            if (archivo.isDirectory()) {
-                ArrayList<String> in = new ArrayList();
-                File[] all_content = archivo.listFiles();
-                for (int i = 0; i < all_content.length; i++) {
-                    in.add(all_content[i].toString());
-                }
-                for (int i = 0; i < in.size(); i++) {
-                    File bas = new File(path + "/" + in.get(i));
-                    ArrayList<String> in2 = new ArrayList();
-                    File[] adentro = bas.listFiles();
-                    for (int j = 0;j < adentro.length; j++) {
-                        in2.add(adentro[j].toString());
-                    }
-                    for (int j = 0; j < in2.size(); j++) {
-                        File ark=new File(path+"/"+in.get(i)+"/"+in2.get(i));
-                        
-                    }
-                }
-
-            }
-        } else {
-            archivo.mkdir();
-        }
-    }
-
     private void bt_agregarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_agregarbdMouseClicked
         // TODO add your handling code here:
-//        jd_crearbd.setModal(true);
-//        jd_crearbd.setLocationRelativeTo(jd_menu);
-//        jd_crearbd.pack();
-//        jd_crearbd.setVisible(true);
+        jd_crearbd.setModal(true);
+        jd_crearbd.setLocationRelativeTo(jd_menu);
+        jd_crearbd.pack();
+        jd_crearbd.setVisible(true);
     }//GEN-LAST:event_bt_agregarbdMouseClicked
 
     private void bt_crearbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_crearbdMouseClicked
         // TODO add your handling code here:
         try {
             String nombre = tf_nombrebd.getText();
-            ArrayList<String> atributos = new ArrayList();
-            Scanner s = new Scanner(tf_atributos.getText());
-            s.useDelimiter(";");
-            while (s.hasNext()) {
-                atributos.add(s.next());
+            abd.getBasesdedatos().add(new bdatos(nombre, usuarioact));
+            abd.escribirArchivo();
+            abd.cargarArchivo();
+            basesdedatos.clear();
+            for (int i = 0; i < abd.getBasesdedatos().size(); i++) {
+                basesdedatos.add(abd.getBasesdedatos().get(i));
             }
-            String creador = usuarioact.getUsuario();
-            Date fecha = new Date();
             DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-            DefaultMutableTreeNode add;
-            at.getLista().add(new Tablas(nombre, creador, fecha));
-            at.getLista().get(at.getLista().size() - 1).setAtributos(atributos);
-            add = new DefaultMutableTreeNode(at.getLista().get(at.getLista().size() - 1));
+            DefaultMutableTreeNode add = new DefaultMutableTreeNode(basesdedatos.get(basesdedatos.size() - 1));
             raiz.add(add);
             modelo.reload();
-            at.escribirArchivo();
-            at.cargarArchivo();
-            tablas.clear();
-            for (int i = 0; i < at.getLista().size(); i++) {
-                tablas.add(at.getLista().get(i));
-            }
-            tf_nombrebd.setText("");
-            tf_atributos.setText("");
-            JOptionPane.showMessageDialog(jd_crearbd, "Se creo la tabla de manera correcta!");
+//            String nombre = tf_nombrebd.getText();
+//            ArrayList<String> atributos = new ArrayList();
+//            Scanner s = new Scanner(tf_atributos.getText());
+//            s.useDelimiter(";");
+//            while (s.hasNext()) {
+//                atributos.add(s.next());
+//            }
+//            String creador = usuarioact.getUsuario();
+//            Date fecha = new Date();
+//            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+//            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+//            DefaultMutableTreeNode add;
+//            at.getLista().add(new Tablas(nombre, creador, fecha));
+//            at.getLista().get(at.getLista().size() - 1).setAtributos(atributos);
+//            add = new DefaultMutableTreeNode(at.getLista().get(at.getLista().size() - 1));
+//            raiz.add(add);
+//            modelo.reload();
+//            at.escribirArchivo();
+//            at.cargarArchivo();
+//            tablas.clear();
+//            for (int i = 0; i < at.getLista().size(); i++) {
+//                tablas.add(at.getLista().get(i));
+//            }
+//            tf_nombrebd.setText("");
+//            tf_atributos.setText("");
+//            JOptionPane.showMessageDialog(jd_crearbd, "Se creo la tabla de manera correcta!");
             jd_crearbd.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(jd_crearbd, "Algunos datos son incorrectos!");
@@ -995,6 +999,40 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_eliminardbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_eliminardbMouseClicked
         // TODO add your handling code here:
+        try {
+            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
+            if (((DefaultMutableTreeNode) v1).getUserObject() instanceof bdatos) {
+                for (int i = 0; i < basesdedatos.size(); i++) {
+                    if (basesdedatos.get(i).getNombre().equals(((bdatos) ((DefaultMutableTreeNode) v1).getUserObject()).getNombre())) {
+                        basesdedatos.remove(i);
+                    }
+                }
+                abd.setBasesdedatos(basesdedatos);
+                abd.escribirArchivo();
+                abd.cargarArchivo();
+                for (int i = 0; i < ((DefaultMutableTreeNode) v1).getChildCount(); i++) {
+                    for (int j = 0; j < tablas.size(); j++) {
+                        if (tablas.get(j).getNombre().equals(((Tablas) ((DefaultMutableTreeNode) (((DefaultMutableTreeNode) v1).getChildAt(i))).getUserObject()).getNombre())) {
+                            tablas.remove(j);
+                        }
+                    }
+                }
+                at.setLista(tablas);
+                at.escribirArchivo();
+                at.cargarArchivo();
+                ((DefaultMutableTreeNode) v1).removeAllChildren();
+                raiz.remove((DefaultMutableTreeNode) v1);
+                modelo.reload();
+                JOptionPane.showMessageDialog(jd_menu, "Se elimino la base de datos con sus tablas de forma correcta!");
+            } else {
+                JOptionPane.showMessageDialog(jd_menu, "El objeto seleccionado no es una base de datos!\nSeleccione una base de datos para ejecutar esta accion\nde forma correcta!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(jd_menu, "Ha ocurrido un error!");
+            e.printStackTrace();
+        }
 //        try {
 //            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
 //            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
@@ -1016,29 +1054,36 @@ public class Principal extends javax.swing.JFrame {
 
     private void cargarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarbdMouseClicked
         // TODO add your handling code here:
-//        try {
-//            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-//            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-//            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
-//            cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
-//            ArrayList<String> atrib = cargada.getAtributos();
-//            String[] titulo = new String[atrib.size()];
-//            for (int i = 0; i < titulo.length; i++) {
-//                titulo[i] = atrib.get(i);
-//            }
-//            tabla.setModel(new javax.swing.table.DefaultTableModel(
-//                    new Object[][]{},
-//                    titulo
-//            ));
-//            DefaultTableModel tm=(DefaultTableModel)tabla.getModel();
-//            ArrayList<String>detalle=cargada.getDetalle();
-//            for (int i = 0; i < detalle.size(); i++) {
-//                Object[]row=detalle.get(i).split(",");
-//                tm.addRow(row);
-//            }
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(jd_menu, "No hay una Base de Datos Seleccionada");
-//        }
+        try {
+            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
+            if (((DefaultMutableTreeNode) v1).getUserObject() instanceof Tablas) {
+                cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
+                ArrayList<String> atrib = cargada.getAtributos();
+                String[] titulo = new String[atrib.size()];
+                for (int i = 0; i < titulo.length; i++) {
+                    titulo[i] = atrib.get(i);
+                }
+                tabla.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object[][]{},
+                        titulo
+                ));
+                DefaultTableModel tm = (DefaultTableModel) tabla.getModel();
+                ArrayList<String> detalle = cargada.getDetalle();
+                for (int i = 0; i < detalle.size(); i++) {
+                    Object[] row = detalle.get(i).split(",");
+                    tm.addRow(row);
+                }
+                JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
+            }else{
+                JOptionPane.showMessageDialog(jd_menu, "El objeto seleccionado no es una tabla!");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(jd_menu, "Ha ocurrido un error");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_cargarbdMouseClicked
 
     /**
@@ -1084,6 +1129,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1094,9 +1140,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1136,7 +1181,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPasswordField pf_contraconfirm1;
     private javax.swing.JTextPane sql;
     private javax.swing.JTable tabla;
-    private javax.swing.JTextField tf_atributos;
     private javax.swing.JTextField tf_nombrebd;
     private javax.swing.JTextField tf_usu;
     private javax.swing.JTextField tf_usuario;
@@ -1148,6 +1192,7 @@ public class Principal extends javax.swing.JFrame {
     int indexglobal;
     ArrayList<Tablas> tablas = new ArrayList();
     administrarTablas at = new administrarTablas("./BDAECB.txt");
+    administrarBDdatos abd = new administrarBDdatos("./BasesdeDatos.bdaecb");
     Object v1;
     Tablas cargada;
     ArrayList<bdatos> basesdedatos = new ArrayList();

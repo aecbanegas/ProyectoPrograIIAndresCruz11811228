@@ -1,8 +1,0 @@
-#Encabezado
-nombre:Clientes
-creador:admin
-fecha_creacion:09/01/3918
-colaboradores:abraham,carlos,david
-atributos:id,nom,fecha
-#Detalles
-01,Andres,07/08/2018
