@@ -63,6 +63,7 @@ public class administrarTablas {
             }
             bw.flush();
         } catch (Exception e) {
+            e.printStackTrace();
         }
         bw.close();
         fw.close();

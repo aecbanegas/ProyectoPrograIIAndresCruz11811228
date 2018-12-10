@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -73,7 +74,7 @@ public class Principal extends javax.swing.JFrame {
         bt_eliminardb = new javax.swing.JButton();
         cargarbd = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cb_guardaren = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jmi_crear = new javax.swing.JMenuItem();
@@ -249,7 +250,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(96, 96, 96)
                         .addGroup(jd_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(cb_guardaren, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jd_menuLayout.setVerticalGroup(
@@ -266,7 +267,7 @@ public class Principal extends javax.swing.JFrame {
                                 .addGap(14, 14, 14)
                                 .addComponent(jLabel18)
                                 .addGap(4, 4, 4)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cb_guardaren, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -658,6 +659,8 @@ public class Principal extends javax.swing.JFrame {
                 jmi_eliminar.setEnabled(false);
                 jmi_modificar.setEnabled(true);
             }
+            DefaultComboBoxModel ade = new DefaultComboBoxModel();
+            cb_guardaren.setModel(ade);
             DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
             DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
             modelo.setRoot(raiz);
@@ -668,23 +671,27 @@ public class Principal extends javax.swing.JFrame {
                 if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario())) {
                     agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
                     for (int j = 0; j < tablas.size(); j++) {
-                        if (tablas.get(j).getBd().equals(basesdedatos.get(i))) {
+                        if (tablas.get(j).getBd().equals(basesdedatos.get(i).getNombre())) {
                             tabs = new DefaultMutableTreeNode(tablas.get(j));
                             agregar.add(tabs);
                         }
                     }
                     princ.add(agregar);
+                    DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
+                    model.addElement(basesdedatos.get(i));
                 }
                 for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
                     if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
                         agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
                         for (int k = 0; k < tablas.size(); k++) {
-                            if (tablas.get(k).getBd().equals(basesdedatos.get(i))) {
+                            if (tablas.get(k).getBd().equals(basesdedatos.get(i).getNombre())) {
                                 tabs = new DefaultMutableTreeNode(tablas.get(k));
                                 agregar.add(tabs);
                             }
                         }
                         princ.add(agregar);
+                        DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
+                        model.addElement(basesdedatos.get(i));
                     }
                 }
             }
@@ -770,6 +777,8 @@ public class Principal extends javax.swing.JFrame {
                     jmi_eliminar.setEnabled(false);
                     jmi_modificar.setEnabled(true);
                 }
+                DefaultComboBoxModel ade = new DefaultComboBoxModel();
+                cb_guardaren.setModel(ade);
                 DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
                 DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
                 modelo.setRoot(raiz);
@@ -780,23 +789,27 @@ public class Principal extends javax.swing.JFrame {
                     if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario())) {
                         agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
                         for (int j = 0; j < tablas.size(); j++) {
-                            if (tablas.get(j).getBd().equals(basesdedatos.get(i))) {
+                            if (tablas.get(j).getBd().equals(basesdedatos.get(i).getNombre())) {
                                 tabs = new DefaultMutableTreeNode(tablas.get(j));
                                 agregar.add(tabs);
                             }
                         }
                         princ.add(agregar);
+                        DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
+                        model.addElement(basesdedatos.get(i));
                     }
                     for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
                         if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
                             agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
                             for (int k = 0; k < tablas.size(); k++) {
-                                if (tablas.get(k).getBd().equals(basesdedatos.get(i))) {
+                                if (tablas.get(k).getBd().equals(basesdedatos.get(i).getNombre())) {
                                     tabs = new DefaultMutableTreeNode(tablas.get(k));
                                     agregar.add(tabs);
                                 }
                             }
                             princ.add(agregar);
+                            DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
+                            model.addElement(basesdedatos.get(i));
                         }
                     }
                 }
@@ -894,27 +907,87 @@ public class Principal extends javax.swing.JFrame {
             ColPal cp = new ColPal(sql);
         }
         if (evt.getKeyCode() == evt.VK_ENTER) {
-            String[] mostrar = sql.getText().split("  ");
-            if (mostrar.length >= 1) {
-                switch (mostrar[1]) {
-                    case "CREATE":
-                        break;
-                    case "DROP":
-                        break;
-                    case "GRANT":
-                        break;
-                    case "INSERT":
-                        break;
-                    case "SELECT":
-                        break;
-                    case "UPDATE":
-                        break;
-                    case "DELETE":
-                        break;
-                    case "TRUNCATE":
-                        break;
-
+            try {
+                String[] mostrar = sql.getText().split("  ");
+                if (mostrar.length >= 1) {
+                    System.out.println(mostrar[0]);
+                    switch (mostrar[0]) {
+                        case "CREATE":
+                            if (mostrar.length == 3) {
+                                if (mostrar[1].equals("DATABASE")) {
+                                    abd.getBasesdedatos().add(new bdatos(mostrar[2], usuarioact));
+                                    abd.escribirArchivo();
+                                    abd.cargarArchivo();
+                                    basesdedatos.clear();
+                                    for (int i = 0; i < abd.getBasesdedatos().size(); i++) {
+                                        basesdedatos.add(abd.getBasesdedatos().get(i));
+                                    }
+                                    DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+                                    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                                    DefaultMutableTreeNode add = new DefaultMutableTreeNode(basesdedatos.get(basesdedatos.size() - 1));
+                                    raiz.add(add);
+                                    DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
+                                    model.addElement(basesdedatos.get(basesdedatos.size()-1));
+                                    cb_guardaren.setModel(model);
+                                    modelo.reload();
+                                }
+                                if (mostrar[1].equals("TABLE")) {
+                                    Scanner sc = new Scanner(mostrar[2]);
+                                    sc.useDelimiter("[(]");
+                                    String nombre = sc.next();
+                                    Scanner s2 = new Scanner(sc.next());
+                                    s2.useDelimiter("[)]");
+                                    Scanner s3 = new Scanner(s2.next());
+                                    s3.useDelimiter(",");
+                                    ArrayList<String> Atributos = new ArrayList();
+                                    while (s3.hasNext()) {
+                                        Atributos.add(s3.next());
+                                    }
+                                    Date fecha = new Date();
+                                    DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+                                    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                                    DefaultMutableTreeNode hijo = null;
+                                    for (int i = 0; i < raiz.getChildCount(); i++) {
+                                        if (((bdatos) ((DefaultMutableTreeNode) (raiz.getChildAt(i))).getUserObject()).getNombre().equals(((bdatos) (cb_guardaren.getSelectedItem())).getNombre())) {
+                                            hijo = (DefaultMutableTreeNode) raiz.getChildAt(i);
+                                        }
+                                    }
+                                    DefaultMutableTreeNode add = new DefaultMutableTreeNode(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
+                                    at.getLista().add(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
+                                    at.getLista().get(at.getLista().size() - 1).setAtributos(Atributos);
+                                    hijo.add(add);
+                                    modelo.reload();
+//            add = new DefaultMutableTreeNode(at.getLista().get(at.getLista().size() - 1));
+//            raiz.add(add);
+//            modelo.reload();
+                                    at.escribirArchivo();
+                                    at.cargarArchivo();
+                                    tablas.clear();
+                                    for (int i = 0; i < at.getLista().size(); i++) {
+                                        tablas.add(at.getLista().get(i));
+                                    }
+                                }
+                            }
+                            break;
+                        case "DROP":
+                            break;
+                        case "GRANT":
+                            break;
+                        case "INSERT":
+                            break;
+                        case "SELECT":
+                            break;
+                        case "UPDATE":
+                            break;
+                        case "DELETE":
+                            break;
+                        case "TRUNCATE":
+                            break;
+                    }
                 }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(jd_menu, "La linea de codigo esta mal escrita!");
+                e.printStackTrace();
             }
         }
     }//GEN-LAST:event_sqlKeyPressed
@@ -1075,8 +1148,9 @@ public class Principal extends javax.swing.JFrame {
                     Object[] row = detalle.get(i).split(",");
                     tm.addRow(row);
                 }
+                tabla.setModel(tm);
                 JOptionPane.showMessageDialog(jd_menu, "Se cargo la tabla de manera correcta!");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(jd_menu, "El objeto seleccionado no es una tabla!");
             }
 
@@ -1126,10 +1200,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_crearbd;
     private javax.swing.JButton bt_eliminardb;
     private javax.swing.JButton cargarbd;
+    private javax.swing.JComboBox<String> cb_guardaren;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
