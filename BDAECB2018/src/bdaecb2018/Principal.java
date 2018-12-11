@@ -676,41 +676,7 @@ public class Principal extends javax.swing.JFrame {
             }
             DefaultComboBoxModel ade = new DefaultComboBoxModel();
             cb_guardaren.setModel(ade);
-            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-            DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
-            modelo.setRoot(raiz);
-            DefaultMutableTreeNode princ = (DefaultMutableTreeNode) modelo.getRoot();
-            DefaultMutableTreeNode agregar;
-            for (int i = 0; i < basesdedatos.size(); i++) {
-                DefaultMutableTreeNode tabs;
-                if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario())) {
-                    agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
-                    for (int j = 0; j < tablas.size(); j++) {
-                        if (tablas.get(j).getBd().equals(basesdedatos.get(i).getNombre())) {
-                            tabs = new DefaultMutableTreeNode(tablas.get(j));
-                            agregar.add(tabs);
-                        }
-                    }
-                    princ.add(agregar);
-                    DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
-                    model.addElement(basesdedatos.get(i));
-                }
-                for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
-                    if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
-                        agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
-                        for (int k = 0; k < tablas.size(); k++) {
-                            if (tablas.get(k).getBd().equals(basesdedatos.get(i).getNombre())) {
-                                tabs = new DefaultMutableTreeNode(tablas.get(k));
-                                agregar.add(tabs);
-                            }
-                        }
-                        princ.add(agregar);
-                        DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
-                        model.addElement(basesdedatos.get(i));
-                    }
-                }
-            }
-            modelo.reload();
+            process();
             admin = usuarioact.isAdmin();
             create = usuarioact.isCreate();
             select = usuarioact.isSelect();
@@ -728,6 +694,43 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
+    private void process() {
+        DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+        DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
+        modelo.setRoot(raiz);
+        DefaultMutableTreeNode princ = (DefaultMutableTreeNode) modelo.getRoot();
+        DefaultMutableTreeNode agregar;
+        for (int i = 0; i < basesdedatos.size(); i++) {
+            DefaultMutableTreeNode tabs;
+            if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario())) {
+                agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
+                for (int j = 0; j < tablas.size(); j++) {
+                    if (tablas.get(j).getBd().equals(basesdedatos.get(i).getNombre())) {
+                        tabs = new DefaultMutableTreeNode(tablas.get(j));
+                        agregar.add(tabs);
+                    }
+                }
+                princ.add(agregar);
+                DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
+                model.addElement(basesdedatos.get(i));
+            }
+            for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
+                if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
+                    agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
+                    for (int k = 0; k < tablas.size(); k++) {
+                        if (tablas.get(k).getBd().equals(basesdedatos.get(i).getNombre())) {
+                            tabs = new DefaultMutableTreeNode(tablas.get(k));
+                            agregar.add(tabs);
+                        }
+                    }
+                    princ.add(agregar);
+                    DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
+                    model.addElement(basesdedatos.get(i));
+                }
+            }
+        }
+        modelo.reload();
+    }
     private void jmi_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_crearActionPerformed
         // TODO add your handling code here:
         jd_crearusuario.setModal(true);
@@ -917,6 +920,7 @@ public class Principal extends javax.swing.JFrame {
                                             while (s3.hasNext()) {
                                                 Atributos.add(s3.next());
                                             }
+                                            System.out.println(Atributos);
                                             Date fecha = new Date();
                                             DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
                                             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
@@ -927,20 +931,19 @@ public class Principal extends javax.swing.JFrame {
                                                 }
                                             }
                                             DefaultMutableTreeNode add = new DefaultMutableTreeNode(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
-                                            at.getLista().add(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
-                                            at.getLista().get(at.getLista().size() - 1).setAtributos(Atributos);
+                                            Tablas nuevo = new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString());
+                                            nuevo.setAtributos(Atributos);
+                                            at.getLista().add(nuevo);
                                             hijo.add(add);
                                             modelo.reload();
                                             at.escribirArchivo();
                                             at.cargarArchivo();
-                                            tablas.clear();
-                                            for (int i = 0; i < at.getLista().size(); i++) {
-                                                tablas.add(at.getLista().get(i));
-                                            }
+                                            tablas.add(nuevo);
+                                            process();
                                             JOptionPane.showMessageDialog(jd_menu, "Se creo la tabla de manera exitosa!");
                                             sql.setText("");
-                                        }else{
-                                        JOptionPane.showMessageDialog(jd_menu, "No se creo la tabla debido a que ya existe una tabla con ese nombre!");
+                                        } else {
+                                            JOptionPane.showMessageDialog(jd_menu, "No se creo la tabla debido a que ya existe una tabla con ese nombre!");
                                         }
                                     }
                                 } else {
@@ -961,7 +964,7 @@ public class Principal extends javax.swing.JFrame {
                                         }
                                         for (int i = 0; i < cb_guardaren.getItemCount(); i++) {
                                             if (nombd.equals(cb_guardaren.getItemAt(i))) {
-                                                DefaultComboBoxModel model=(DefaultComboBoxModel)cb_guardaren.getModel();
+                                                DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
                                                 model.removeElementAt(i);
                                                 cb_guardaren.setModel(model);
                                                 break;
@@ -1202,12 +1205,13 @@ public class Principal extends javax.swing.JFrame {
     private void cargarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarbdMouseClicked
         // TODO add your handling code here:
         try {
-            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
             Object v1 = jt_usuarios.getSelectionPath().getLastPathComponent();
             if (((DefaultMutableTreeNode) v1).getUserObject() instanceof Tablas) {
                 cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
                 ArrayList<String> atrib = cargada.getAtributos();
+                System.out.println(cargada.getNombre());
+                System.out.println(cargada.getAtributos());
+                System.out.println(atrib);
                 String[] titulo = new String[atrib.size()];
                 for (int i = 0; i < titulo.length; i++) {
                     titulo[i] = atrib.get(i);
