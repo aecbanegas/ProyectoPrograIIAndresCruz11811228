@@ -24,24 +24,24 @@ public class ColPal {
 
     public ColPal(JTextPane textPane) {
         try {
-            myMap.put("CREATE", Color.BLUE);
-            myMap.put("DROP", Color.BLUE);
-            myMap.put("SELECT", Color.BLUE);
-            myMap.put("FROM", Color.BLUE);
-            myMap.put("WHERE", Color.BLUE);
-            myMap.put("AND", Color.BLUE);
-            myMap.put("OR", Color.BLUE);
-            myMap.put("GRANT", Color.BLUE);
-            myMap.put("DATABASE", Color.BLUE);
-            myMap.put("TO", Color.BLUE);
-            myMap.put("INSERT", Color.BLUE);
-            myMap.put("INTO", Color.BLUE);
-            myMap.put("VALUES", Color.BLUE);
-            myMap.put("TABLE", Color.BLUE);
-            myMap.put("UPDATE", Color.BLUE);
-            myMap.put("SET", Color.BLUE);
-            myMap.put("DELETE", Color.BLUE);
-            myMap.put("TRUNCATE", Color.BLUE);
+            myMap.put("CREATE", Color.RED);
+            myMap.put("DROP", Color.RED);
+            myMap.put("SELECT", Color.RED);
+            myMap.put("FROM", Color.RED);
+            myMap.put("WHERE", Color.RED);
+            myMap.put("AND", Color.RED);
+            myMap.put("OR", Color.RED);
+            myMap.put("GRANT", Color.RED);
+            myMap.put("DATABASE", Color.RED);
+            myMap.put("TO", Color.RED);
+            myMap.put("INSERT", Color.RED);
+            myMap.put("INTO", Color.RED);
+            myMap.put("VALUES", Color.RED);
+            myMap.put("TABLE", Color.RED);
+            myMap.put("UPDATE", Color.RED);
+            myMap.put("SET", Color.RED);
+            myMap.put("DELETE", Color.RED);
+            myMap.put("TRUNCATE", Color.RED);
             String text = textPane.getText();
             textPane.setText("");
             StyledDocument doc = textPane.getStyledDocument();
@@ -49,9 +49,13 @@ public class ColPal {
             StyleConstants.setForeground(style, Color.red);
             ArrayList<Chunk> chunks = getColorsBasedOnText(text, textPane);
             try {
-                for (Chunk chunk : chunks) {
-                    doc.insertString(doc.getLength(), chunk.text + " ", chunk.style);
-                }
+                for (int i = 0; i < chunks.size(); i++) {                    
+                    if (i==chunks.size()-1) {
+                    doc.insertString(doc.getLength(), chunks.get(i).text + "", chunks.get(i).style);    
+                    }else{
+                    doc.insertString(doc.getLength(), chunks.get(i).text + " ", chunks.get(i).style);
+                    }
+                }                                    
             } catch (BadLocationException e) {
                 e.printStackTrace();
             }

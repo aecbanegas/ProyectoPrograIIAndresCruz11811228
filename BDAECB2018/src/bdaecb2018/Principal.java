@@ -638,7 +638,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
+        // TODO add your handling code here:    
+        inicia();
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void inicia() {
         boolean usuario = false;
         int index = 0;
         for (int i = 0; i < usuarios.size(); i++) {
@@ -696,6 +700,12 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
             modelo.reload();
+            admin = usuarioact.isAdmin();
+            create = usuarioact.isCreate();
+            select = usuarioact.isSelect();
+            insert = usuarioact.isInsert();
+            delete = usuarioact.isDelete();
+            drop = usuarioact.isDrop();
             tf_usu.setText("");
             pf_cont.setText("");
             jd_menu.setModal(true);
@@ -705,7 +715,7 @@ public class Principal extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "La contraseña o usuario son incorrectos!");
         }
-    }//GEN-LAST:event_jButton1MouseClicked
+    }
 
     private void jmi_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_crearActionPerformed
         // TODO add your handling code here:
@@ -721,7 +731,7 @@ public class Principal extends javax.swing.JFrame {
             String usuario = tf_usuario.getText();
             String contra = pf_contra.getText();
             String contraconfirm = pf_contraconfirm.getText();
-            if (contra.equals(contraconfirm)) {
+            if (contra.equals(contraconfirm) && !validUsuario(usuario)) {
                 boolean admin = jcb_gestion.isSelected();
                 boolean create = jcb_crear.isSelected();
                 boolean select = jcb_seleccionar.isSelected();
@@ -747,7 +757,7 @@ public class Principal extends javax.swing.JFrame {
                 jcb_seleccionar.setSelected(false);
                 jd_crearusuario.dispose();
             } else {
-                JOptionPane.showMessageDialog(jd_crearusuario, "Las contraseñas no son iguales!");
+                JOptionPane.showMessageDialog(jd_crearusuario, "Las contraseñas no son iguales y/o nombre\nde usuario ya esta siendo usado!");
                 Integer.parseInt("aebc");
             }
         } catch (Exception e) {
@@ -908,7 +918,7 @@ public class Principal extends javax.swing.JFrame {
         }
         if (evt.getKeyCode() == evt.VK_ENTER) {
             try {
-                String[] mostrar = sql.getText().split("  ");
+                String[] mostrar = sql.getText().split(" ");
                 if (mostrar.length >= 1) {
                     System.out.println(mostrar[0]);
                     switch (mostrar[0]) {
@@ -927,7 +937,7 @@ public class Principal extends javax.swing.JFrame {
                                     DefaultMutableTreeNode add = new DefaultMutableTreeNode(basesdedatos.get(basesdedatos.size() - 1));
                                     raiz.add(add);
                                     DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
-                                    model.addElement(basesdedatos.get(basesdedatos.size()-1));
+                                    model.addElement(basesdedatos.get(basesdedatos.size() - 1));
                                     cb_guardaren.setModel(model);
                                     modelo.reload();
                                 }
@@ -957,9 +967,6 @@ public class Principal extends javax.swing.JFrame {
                                     at.getLista().get(at.getLista().size() - 1).setAtributos(Atributos);
                                     hijo.add(add);
                                     modelo.reload();
-//            add = new DefaultMutableTreeNode(at.getLista().get(at.getLista().size() - 1));
-//            raiz.add(add);
-//            modelo.reload();
                                     at.escribirArchivo();
                                     at.cargarArchivo();
                                     tablas.clear();
@@ -970,6 +977,58 @@ public class Principal extends javax.swing.JFrame {
                             }
                             break;
                         case "DROP":
+                            if (mostrar[1].equals("DATABASE")) {
+                                String nombd = mostrar[2];
+                                for (int i = 0; i < basesdedatos.size(); i++) {
+                                    if (nombd.equals(basesdedatos.get(i).getNombre())) {
+                                        basesdedatos.remove(i);
+                                        break;
+                                    }
+                                }
+                                abd.setBasesdedatos(basesdedatos);
+                                abd.escribirArchivo();
+                                abd.cargarArchivo();
+                                DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+                                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                                for (int i = 0; i < raiz.getChildCount(); i++) {
+                                    if (nombd.equals(raiz.getChildAt(i).toString())) {
+                                        raiz.remove(i);
+                                        break;
+                                    }
+                                }
+                                modelo.reload();
+                                JOptionPane.showMessageDialog(jd_menu, "Se elimino de forma correcta!");
+                            }
+                            if (mostrar[1].equals("TABLE")) {
+                                String nomtab = mostrar[2];
+                                DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+                                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                                DefaultMutableTreeNode adentro;
+                                for (int i = 0; i < raiz.getChildCount(); i++) {
+                                    adentro = (DefaultMutableTreeNode) raiz.getChildAt(i);
+                                    for (int j = 0; j < adentro.getChildCount(); j++) {
+                                        String nombre = ((Tablas) ((DefaultMutableTreeNode) adentro.getChildAt(j)).getUserObject()).getNombre();
+                                        System.out.println(nomtab + " - " + nombre);
+                                        if (nombre.equals(nomtab)) {
+                                            System.out.println("entra");
+                                            adentro.remove(j);
+                                            break;
+                                        }
+                                    }
+                                }
+                                modelo.reload();
+                                for (int i = 0; i < tablas.size(); i++) {
+                                    if (nomtab.equals(tablas.get(i).getNombre())) {
+                                        tablas.remove(i);
+                                        System.out.println("elimina");
+                                        break;
+                                    }
+                                }
+                                at.setLista(tablas);
+                                at.escribirArchivo();
+                                at.cargarArchivo();
+                                JOptionPane.showMessageDialog(jd_menu, "Se elimino la tabla de manera indicada!");
+                            }
                             break;
                         case "GRANT":
                             break;
@@ -995,6 +1054,33 @@ public class Principal extends javax.swing.JFrame {
     private void jd_menuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jd_menuKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jd_menuKeyPressed
+
+    private boolean validTabla(String nom) {
+        for (int i = 0; i < tablas.size(); i++) {
+            if (tablas.get(i).getNombre().equals(nom)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean validUsuario(String nom) {
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (nom.equals(usuarios.get(i).getUsuario())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean validBD(String nom) {
+        for (int i = 0; i < basesdedatos.size(); i++) {
+            if (basesdedatos.get(i).getNombre().equals(nom)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void jd_menuWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jd_menuWindowClosed
         // TODO add your handling code here:
@@ -1268,6 +1354,12 @@ public class Principal extends javax.swing.JFrame {
     administrarTablas at = new administrarTablas("./BDAECB.txt");
     administrarBDdatos abd = new administrarBDdatos("./BasesdeDatos.bdaecb");
     Object v1;
-    Tablas cargada;
+    Tablas cargada, ref;
+    private boolean admin;
+    private boolean create;
+    private boolean select;
+    private boolean insert;
+    private boolean delete;
+    private boolean drop;
     ArrayList<bdatos> basesdedatos = new ArrayList();
 }
