@@ -13,13 +13,6 @@ fecha_creacion:10/01/3918
 atributos:id,cuenta,nombre,edad
 #Detalles
 #Encabezado
-nombre:Maestro
-base_de_datos:Escuela 
-creador:admin
-fecha_creacion:10/01/3918
-atributos:id,nombre,edad
-#Detalles
-#Encabezado
 nombre:Maestrante
 base_de_datos:Colegio
 creador:admin
@@ -46,4 +39,11 @@ base_de_datos:Kinder
 creador:admin
 fecha_creacion:10/01/3918
 atributos:edad,id,nombre
+#Detalles
+#Encabezado
+nombre:Maestro
+base_de_datos:Universidad 
+creador:admin
+fecha_creacion:10/01/3918
+atributos:id,nombre,edad
 #Detalles

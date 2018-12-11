@@ -586,6 +586,11 @@ public class Principal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton1KeyPressed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 215, -1, -1));
 
         pf_cont.addActionListener(new java.awt.event.ActionListener() {
@@ -599,6 +604,12 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         getContentPane().add(pf_cont, new org.netbeans.lib.awtextra.AbsoluteConstraints(183, 141, 125, -1));
+
+        tf_usu.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tf_usuKeyPressed(evt);
+            }
+        });
         getContentPane().add(tf_usu, new org.netbeans.lib.awtextra.AbsoluteConstraints(183, 99, 125, -1));
         getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 450, 350));
 
@@ -767,72 +778,7 @@ public class Principal extends javax.swing.JFrame {
     private void pf_contKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pf_contKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == evt.VK_ENTER) {
-            boolean usuario = false;
-            int index = 0;
-            for (int i = 0; i < usuarios.size(); i++) {
-                if (tf_usu.getText().equals(usuarios.get(i).getUsuario())) {
-                    usuario = true;
-                    index = i;
-                }
-            }
-            if (usuario && pf_cont.getText().equals(usuarios.get(index).getContra())) {
-                usuarioact = usuarios.get(index);
-                indexglobal = index;
-                if (usuarioact.isAdmin()) {
-                    jmi_crear.setEnabled(true);
-                    jmi_eliminar.setEnabled(true);
-                    jmi_modificar.setEnabled(true);
-                } else {
-                    jmi_crear.setEnabled(false);
-                    jmi_eliminar.setEnabled(false);
-                    jmi_modificar.setEnabled(true);
-                }
-                DefaultComboBoxModel ade = new DefaultComboBoxModel();
-                cb_guardaren.setModel(ade);
-                DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-                DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Bases de Datos");
-                modelo.setRoot(raiz);
-                DefaultMutableTreeNode princ = (DefaultMutableTreeNode) modelo.getRoot();
-                DefaultMutableTreeNode agregar;
-                for (int i = 0; i < basesdedatos.size(); i++) {
-                    DefaultMutableTreeNode tabs;
-                    if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario())) {
-                        agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
-                        for (int j = 0; j < tablas.size(); j++) {
-                            if (tablas.get(j).getBd().equals(basesdedatos.get(i).getNombre())) {
-                                tabs = new DefaultMutableTreeNode(tablas.get(j));
-                                agregar.add(tabs);
-                            }
-                        }
-                        princ.add(agregar);
-                        DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
-                        model.addElement(basesdedatos.get(i));
-                    }
-                    for (int j = 0; j < basesdedatos.get(i).getColaboradores().size(); j++) {
-                        if (basesdedatos.get(i).getColaboradores().get(j).getUsuario().equals(usuarioact.getUsuario())) {
-                            agregar = new DefaultMutableTreeNode(basesdedatos.get(i));
-                            for (int k = 0; k < tablas.size(); k++) {
-                                if (tablas.get(k).getBd().equals(basesdedatos.get(i).getNombre())) {
-                                    tabs = new DefaultMutableTreeNode(tablas.get(k));
-                                    agregar.add(tabs);
-                                }
-                            }
-                            princ.add(agregar);
-                            DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
-                            model.addElement(basesdedatos.get(i));
-                        }
-                    }
-                }
-                modelo.reload();
-                tf_usu.setText("");
-                pf_cont.setText("");
-                jd_menu.setModal(true);
-                jd_menu.setLocationRelativeTo(this);
-                jd_menu.pack();
-                jd_menu.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "La contraseña o usuario son incorrectos!");
-            }
+            inicia();
         }
     }//GEN-LAST:event_pf_contKeyPressed
 
@@ -924,110 +870,152 @@ public class Principal extends javax.swing.JFrame {
                     switch (mostrar[0]) {
                         case "CREATE":
                             if (mostrar.length == 3) {
-                                if (mostrar[1].equals("DATABASE")) {
-                                    abd.getBasesdedatos().add(new bdatos(mostrar[2], usuarioact));
-                                    abd.escribirArchivo();
-                                    abd.cargarArchivo();
-                                    basesdedatos.clear();
-                                    for (int i = 0; i < abd.getBasesdedatos().size(); i++) {
-                                        basesdedatos.add(abd.getBasesdedatos().get(i));
-                                    }
-                                    DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-                                    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-                                    DefaultMutableTreeNode add = new DefaultMutableTreeNode(basesdedatos.get(basesdedatos.size() - 1));
-                                    raiz.add(add);
-                                    DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
-                                    model.addElement(basesdedatos.get(basesdedatos.size() - 1));
-                                    cb_guardaren.setModel(model);
-                                    modelo.reload();
-                                }
-                                if (mostrar[1].equals("TABLE")) {
-                                    Scanner sc = new Scanner(mostrar[2]);
-                                    sc.useDelimiter("[(]");
-                                    String nombre = sc.next();
-                                    Scanner s2 = new Scanner(sc.next());
-                                    s2.useDelimiter("[)]");
-                                    Scanner s3 = new Scanner(s2.next());
-                                    s3.useDelimiter(",");
-                                    ArrayList<String> Atributos = new ArrayList();
-                                    while (s3.hasNext()) {
-                                        Atributos.add(s3.next());
-                                    }
-                                    Date fecha = new Date();
-                                    DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-                                    DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-                                    DefaultMutableTreeNode hijo = null;
-                                    for (int i = 0; i < raiz.getChildCount(); i++) {
-                                        if (((bdatos) ((DefaultMutableTreeNode) (raiz.getChildAt(i))).getUserObject()).getNombre().equals(((bdatos) (cb_guardaren.getSelectedItem())).getNombre())) {
-                                            hijo = (DefaultMutableTreeNode) raiz.getChildAt(i);
+                                if (create) {
+                                    if (mostrar[1].equals("DATABASE")) {
+                                        boolean flag = true;
+                                        for (int i = 0; i < basesdedatos.size(); i++) {
+                                            if (mostrar[2].equals(basesdedatos.get(i).getNombre())) {
+                                                JOptionPane.showMessageDialog(jd_menu, "Ya existe una base de datos con ese nombre, vuelva a intentar con otro nombre!");
+                                            }
+                                        }
+                                        if (flag) {
+                                            abd.getBasesdedatos().add(new bdatos(mostrar[2], usuarioact));
+                                            abd.escribirArchivo();
+                                            abd.cargarArchivo();
+                                            basesdedatos.clear();
+                                            for (int i = 0; i < abd.getBasesdedatos().size(); i++) {
+                                                basesdedatos.add(abd.getBasesdedatos().get(i));
+                                            }
+                                            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+                                            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                                            DefaultMutableTreeNode add = new DefaultMutableTreeNode(basesdedatos.get(basesdedatos.size() - 1));
+                                            raiz.add(add);
+                                            DefaultComboBoxModel model = (DefaultComboBoxModel) cb_guardaren.getModel();
+                                            model.addElement(basesdedatos.get(basesdedatos.size() - 1));
+                                            cb_guardaren.setModel(model);
+                                            modelo.reload();
+                                            JOptionPane.showMessageDialog(jd_menu, "Se creo de manera exitosa la base de datos!");
+                                            sql.setText("");
                                         }
                                     }
-                                    DefaultMutableTreeNode add = new DefaultMutableTreeNode(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
-                                    at.getLista().add(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
-                                    at.getLista().get(at.getLista().size() - 1).setAtributos(Atributos);
-                                    hijo.add(add);
-                                    modelo.reload();
-                                    at.escribirArchivo();
-                                    at.cargarArchivo();
-                                    tablas.clear();
-                                    for (int i = 0; i < at.getLista().size(); i++) {
-                                        tablas.add(at.getLista().get(i));
+                                    if (mostrar[1].equals("TABLE")) {
+                                        boolean flag = true;
+                                        for (int i = 0; i < tablas.size(); i++) {
+                                            if (mostrar[2].equals(tablas.get(i).getNombre())) {
+                                                flag = false;
+                                            }
+                                        }
+                                        if (flag) {
+                                            Scanner sc = new Scanner(mostrar[2]);
+                                            sc.useDelimiter("[(]");
+                                            String nombre = sc.next();
+                                            Scanner s2 = new Scanner(sc.next());
+                                            s2.useDelimiter("[)]");
+                                            Scanner s3 = new Scanner(s2.next());
+                                            s3.useDelimiter(",");
+                                            ArrayList<String> Atributos = new ArrayList();
+                                            while (s3.hasNext()) {
+                                                Atributos.add(s3.next());
+                                            }
+                                            Date fecha = new Date();
+                                            DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+                                            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                                            DefaultMutableTreeNode hijo = null;
+                                            for (int i = 0; i < raiz.getChildCount(); i++) {
+                                                if (((bdatos) ((DefaultMutableTreeNode) (raiz.getChildAt(i))).getUserObject()).getNombre().equals(((bdatos) (cb_guardaren.getSelectedItem())).getNombre())) {
+                                                    hijo = (DefaultMutableTreeNode) raiz.getChildAt(i);
+                                                }
+                                            }
+                                            DefaultMutableTreeNode add = new DefaultMutableTreeNode(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
+                                            at.getLista().add(new Tablas(nombre, usuarioact.getUsuario(), fecha, cb_guardaren.getSelectedItem().toString()));
+                                            at.getLista().get(at.getLista().size() - 1).setAtributos(Atributos);
+                                            hijo.add(add);
+                                            modelo.reload();
+                                            at.escribirArchivo();
+                                            at.cargarArchivo();
+                                            tablas.clear();
+                                            for (int i = 0; i < at.getLista().size(); i++) {
+                                                tablas.add(at.getLista().get(i));
+                                            }
+                                            JOptionPane.showMessageDialog(jd_menu, "Se creo la tabla de manera exitosa!");
+                                            sql.setText("");
+                                        }else{
+                                        JOptionPane.showMessageDialog(jd_menu, "No se creo la tabla debido a que ya existe una tabla con ese nombre!");
+                                        }
                                     }
+                                } else {
+                                    JOptionPane.showMessageDialog(jd_menu, "Su usuario no tiene acceso para crear tablas ni bases de datos!");
                                 }
                             }
                             break;
                         case "DROP":
-                            if (mostrar[1].equals("DATABASE")) {
-                                String nombd = mostrar[2];
-                                for (int i = 0; i < basesdedatos.size(); i++) {
-                                    if (nombd.equals(basesdedatos.get(i).getNombre())) {
-                                        basesdedatos.remove(i);
-                                        break;
-                                    }
-                                }
-                                abd.setBasesdedatos(basesdedatos);
-                                abd.escribirArchivo();
-                                abd.cargarArchivo();
-                                DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-                                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-                                for (int i = 0; i < raiz.getChildCount(); i++) {
-                                    if (nombd.equals(raiz.getChildAt(i).toString())) {
-                                        raiz.remove(i);
-                                        break;
-                                    }
-                                }
-                                modelo.reload();
-                                JOptionPane.showMessageDialog(jd_menu, "Se elimino de forma correcta!");
-                            }
-                            if (mostrar[1].equals("TABLE")) {
-                                String nomtab = mostrar[2];
-                                DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
-                                DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
-                                DefaultMutableTreeNode adentro;
-                                for (int i = 0; i < raiz.getChildCount(); i++) {
-                                    adentro = (DefaultMutableTreeNode) raiz.getChildAt(i);
-                                    for (int j = 0; j < adentro.getChildCount(); j++) {
-                                        String nombre = ((Tablas) ((DefaultMutableTreeNode) adentro.getChildAt(j)).getUserObject()).getNombre();
-                                        System.out.println(nomtab + " - " + nombre);
-                                        if (nombre.equals(nomtab)) {
-                                            System.out.println("entra");
-                                            adentro.remove(j);
-                                            break;
+                            if (mostrar.length == 3) {
+                                if (drop) {
+                                    if (mostrar[1].equals("DATABASE")) {
+                                        String nombd = mostrar[2];
+                                        for (int i = 0; i < basesdedatos.size(); i++) {
+                                            if (nombd.equals(basesdedatos.get(i).getNombre())) {
+                                                basesdedatos.remove(i);
+                                                break;
+                                            }
                                         }
+                                        for (int i = 0; i < cb_guardaren.getItemCount(); i++) {
+                                            if (nombd.equals(cb_guardaren.getItemAt(i))) {
+                                                DefaultComboBoxModel model=(DefaultComboBoxModel)cb_guardaren.getModel();
+                                                model.removeElementAt(i);
+                                                cb_guardaren.setModel(model);
+                                                break;
+                                            }
+                                        }
+                                        abd.setBasesdedatos(basesdedatos);
+                                        abd.escribirArchivo();
+                                        abd.cargarArchivo();
+                                        DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+                                        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                                        for (int i = 0; i < raiz.getChildCount(); i++) {
+                                            if (nombd.equals(raiz.getChildAt(i).toString())) {
+                                                raiz.remove(i);
+                                                break;
+                                            }
+                                        }
+                                        modelo.reload();
+                                        JOptionPane.showMessageDialog(jd_menu, "Se elimino de forma correcta la base de datos!");
+                                        sql.setText("");
                                     }
-                                }
-                                modelo.reload();
-                                for (int i = 0; i < tablas.size(); i++) {
-                                    if (nomtab.equals(tablas.get(i).getNombre())) {
-                                        tablas.remove(i);
-                                        System.out.println("elimina");
-                                        break;
+                                    if (mostrar[1].equals("TABLE")) {
+                                        String nomtab = mostrar[2];
+                                        DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
+                                        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+                                        DefaultMutableTreeNode adentro;
+                                        for (int i = 0; i < raiz.getChildCount(); i++) {
+                                            adentro = (DefaultMutableTreeNode) raiz.getChildAt(i);
+                                            for (int j = 0; j < adentro.getChildCount(); j++) {
+                                                String nombre = ((Tablas) ((DefaultMutableTreeNode) adentro.getChildAt(j)).getUserObject()).getNombre();
+                                                System.out.println(nomtab + " - " + nombre);
+                                                if (nombre.equals(nomtab)) {
+                                                    System.out.println("entra");
+                                                    adentro.remove(j);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        modelo.reload();
+                                        for (int i = 0; i < tablas.size(); i++) {
+                                            if (nomtab.equals(tablas.get(i).getNombre())) {
+                                                tablas.remove(i);
+                                                System.out.println("elimina");
+                                                break;
+                                            }
+                                        }
+                                        at.setLista(tablas);
+                                        at.escribirArchivo();
+                                        at.cargarArchivo();
+                                        JOptionPane.showMessageDialog(jd_menu, "Se elimino la tabla de forma correcto!");
+                                        sql.setText("");
                                     }
+                                } else {
+                                    JOptionPane.showMessageDialog(jd_menu, "Su usuario no tiene acceso para eliminar tablas u bases de datos!");
                                 }
-                                at.setLista(tablas);
-                                at.escribirArchivo();
-                                at.cargarArchivo();
-                                JOptionPane.showMessageDialog(jd_menu, "Se elimino la tabla de manera indicada!");
                             }
                             break;
                         case "GRANT":
@@ -1245,6 +1233,20 @@ public class Principal extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_cargarbdMouseClicked
+
+    private void tf_usuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tf_usuKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            inicia();
+        }
+    }//GEN-LAST:event_tf_usuKeyPressed
+
+    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == evt.VK_ENTER) {
+            inicia();
+        }
+    }//GEN-LAST:event_jButton1KeyPressed
 
     /**
      * @param args the command line arguments
