@@ -731,6 +731,7 @@ public class Principal extends javax.swing.JFrame {
         }
         modelo.reload();
     }
+
     private void jmi_crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_crearActionPerformed
         // TODO add your handling code here:
         jd_crearusuario.setModal(true);
@@ -869,7 +870,6 @@ public class Principal extends javax.swing.JFrame {
             try {
                 String[] mostrar = sql.getText().split(" ");
                 if (mostrar.length >= 1) {
-                    System.out.println(mostrar[0]);
                     switch (mostrar[0]) {
                         case "CREATE":
                             if (mostrar.length == 3) {
@@ -903,8 +903,11 @@ public class Principal extends javax.swing.JFrame {
                                     }
                                     if (mostrar[1].equals("TABLE")) {
                                         boolean flag = true;
+                                        Scanner p = new Scanner(mostrar[2]);
+                                        p.useDelimiter("[(]");
+                                        String n = p.next();
                                         for (int i = 0; i < tablas.size(); i++) {
-                                            if (mostrar[2].equals(tablas.get(i).getNombre())) {
+                                            if (n.equals(tablas.get(i).getNombre())) {
                                                 flag = false;
                                             }
                                         }
@@ -920,7 +923,6 @@ public class Principal extends javax.swing.JFrame {
                                             while (s3.hasNext()) {
                                                 Atributos.add(s3.next());
                                             }
-                                            System.out.println(Atributos);
                                             Date fecha = new Date();
                                             DefaultTreeModel modelo = (DefaultTreeModel) jt_usuarios.getModel();
                                             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
@@ -994,9 +996,7 @@ public class Principal extends javax.swing.JFrame {
                                             adentro = (DefaultMutableTreeNode) raiz.getChildAt(i);
                                             for (int j = 0; j < adentro.getChildCount(); j++) {
                                                 String nombre = ((Tablas) ((DefaultMutableTreeNode) adentro.getChildAt(j)).getUserObject()).getNombre();
-                                                System.out.println(nomtab + " - " + nombre);
                                                 if (nombre.equals(nomtab)) {
-                                                    System.out.println("entra");
                                                     adentro.remove(j);
                                                     break;
                                                 }
@@ -1006,7 +1006,6 @@ public class Principal extends javax.swing.JFrame {
                                         for (int i = 0; i < tablas.size(); i++) {
                                             if (nomtab.equals(tablas.get(i).getNombre())) {
                                                 tablas.remove(i);
-                                                System.out.println("elimina");
                                                 break;
                                             }
                                         }
@@ -1022,8 +1021,58 @@ public class Principal extends javax.swing.JFrame {
                             }
                             break;
                         case "GRANT":
+                            if (mostrar.length == 5) {
+                                if (mostrar[1].equals("DATABASE") && mostrar[3].equals("TO")) {
+                                    String bd = mostrar[2];
+                                    String usuario = mostrar[4];
+                                    for (int i = 0; i < basesdedatos.size(); i++) {
+                                        if (basesdedatos.get(i).getUsuario().getUsuario().equals(usuarioact.getUsuario()) && bd.equals(basesdedatos.get(i).getNombre())) {
+                                            access = basesdedatos.get(i);
+                                            break;
+                                        } else {
+                                            access = null;
+                                        }
+                                    }
+                                    boolean flag = true;
+                                    if (access != null) {
+                                        for (int i = 0; i < access.getColaboradores().size(); i++) {
+                                            if (usuario.equals(access.getColaboradores().get(i).getUsuario())) {
+                                                flag = false;
+                                            }
+                                        }
+                                    }
+                                    if (flag) {
+                                        for (int i = 0; i < usuarios.size(); i++) {
+                                            if (usuario.equals(usuarios.get(i).getUsuario()) && !usuario.equals(usuarioact.getUsuario())) {
+                                                usuarioaccess = usuarios.get(i);
+                                                break;
+                                            } else {
+                                                usuarioaccess = null;
+                                            }
+                                        }
+                                    } else {
+                                        access = null;
+                                    }
+                                    if (access != null && usuarioaccess != null) {
+                                        access.getColaboradores().add(usuarioaccess);
+                                        abd.setBasesdedatos(basesdedatos);
+                                        abd.escribirArchivo();
+                                        abd.cargarArchivo();
+                                        JOptionPane.showMessageDialog(jd_menu, "Se ha dado autorizacion al usuario para ingresar a la base de datos de manera correcta!");
+                                        sql.setText("");
+                                    } else {
+                                        JOptionPane.showMessageDialog(jd_menu, "No existe la base de datos o el usuario!\nNo se puede compartir una base de datos consigomismo!");
+                                        sql.setText("");
+                                    }
+                                } else {
+                                    JOptionPane.showMessageDialog(jd_menu, "Instruccion mal escrita!");
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(jd_menu, "Instruccion mal escrita!");
+                            }
                             break;
                         case "INSERT":
+
                             break;
                         case "SELECT":
                             break;
@@ -1075,7 +1124,6 @@ public class Principal extends javax.swing.JFrame {
 
     private void jd_menuWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jd_menuWindowClosed
         // TODO add your handling code here:
-
     }//GEN-LAST:event_jd_menuWindowClosed
 
     private void bt_agregarbdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_agregarbdMouseClicked
@@ -1209,9 +1257,6 @@ public class Principal extends javax.swing.JFrame {
             if (((DefaultMutableTreeNode) v1).getUserObject() instanceof Tablas) {
                 cargada = ((Tablas) ((DefaultMutableTreeNode) v1).getUserObject());
                 ArrayList<String> atrib = cargada.getAtributos();
-                System.out.println(cargada.getNombre());
-                System.out.println(cargada.getAtributos());
-                System.out.println(atrib);
                 String[] titulo = new String[atrib.size()];
                 for (int i = 0; i < titulo.length; i++) {
                     titulo[i] = atrib.get(i);
@@ -1354,7 +1399,7 @@ public class Principal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     administrarUsuarios au = new administrarUsuarios("./Usuarios.dbaecb");
     ArrayList<Usuarios> usuarios = new ArrayList();
-    Usuarios usuarioact = null;
+    Usuarios usuarioact, usuarioaccess;
     int indexglobal;
     ArrayList<Tablas> tablas = new ArrayList();
     administrarTablas at = new administrarTablas("./BDAECB.txt");
@@ -1368,4 +1413,5 @@ public class Principal extends javax.swing.JFrame {
     private boolean delete;
     private boolean drop;
     ArrayList<bdatos> basesdedatos = new ArrayList();
+    bdatos access;
 }
